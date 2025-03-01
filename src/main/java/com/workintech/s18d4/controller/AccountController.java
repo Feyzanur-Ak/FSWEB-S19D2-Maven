@@ -30,7 +30,7 @@ public class AccountController {
     }
 
     @PostMapping("/{customerId}")//Acount bir costemıra bağlı bunu belirtmek lazım
-    public AccountResponse save(@RequestBody Account account, @PathVariable Long customerId){
+    public AccountResponse save(@RequestBody Account account, @PathVariable long customerId){
         Customer customer=customerService.find(customerId);
         if(customer!=null){
             customer.getAccounts().add(account);//hem costımıra ekliyorum
@@ -44,7 +44,7 @@ public class AccountController {
     }
 
     @PutMapping("/{customerId}")
-    public AccountResponse update(@PathVariable Long customerId,@RequestBody Account account){
+    public AccountResponse update(@PathVariable long customerId,@RequestBody Account account){
         Customer customer=customerService.find(customerId);
         Account updatedAccount=null;
         for(Account account1 : customer.getAccounts()){
@@ -68,7 +68,7 @@ public class AccountController {
     }
 
     @DeleteMapping("{id}")
-    public AccountResponse remove(@PathVariable Long id){
+    public AccountResponse remove(@PathVariable long id){
         Account account=accountService.find(id);
         if(account == null){
             throw new RuntimeException("no account find");

@@ -3,7 +3,6 @@ package com.workintech.s18d4.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 @Data
 @NoArgsConstructor
@@ -13,12 +12,12 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @Column(name = "street")
     private String street;
     @Column(name = "no")
-    private String no;
+    private int no;
     @Column(name = "city")
     private String city;
     @Column(name = "country")

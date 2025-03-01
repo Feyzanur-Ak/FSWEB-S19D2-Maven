@@ -29,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account find(Long id) {
+    public Account find(long id) {
         return accountRepository.findById(id).orElseThrow(null);
     }
 
@@ -40,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public Account delete(Long id) {
+    public Account delete(long id) {
        Account account=find(id);
        accountRepository.delete(account);
        return account;

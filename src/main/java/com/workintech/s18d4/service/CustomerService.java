@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CustomerService {
     List<Customer> findAll();
-    Customer find(Long id);
+    Customer find(long id);
     Customer save(Customer customer);
-    Customer delete(Long id);
+    Customer delete(long id);
 }

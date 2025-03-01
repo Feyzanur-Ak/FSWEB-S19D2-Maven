@@ -4,17 +4,17 @@ package com.workintech.s18d4.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 @Data
 @NoArgsConstructor
 @Entity
 @Table(name="acconut", schema="public")
 public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
-    private Long id;
+    private long id;
 
     @Column(name ="account_name")
     private String accountName;

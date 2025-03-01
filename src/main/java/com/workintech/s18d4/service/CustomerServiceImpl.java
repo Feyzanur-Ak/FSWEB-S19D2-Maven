@@ -26,7 +26,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer find(Long id) {
+    public Customer find(long id) {
         return customerRepository.findById(id).orElseThrow(null);
     }
 
@@ -36,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer delete(Long id) {
+    public Customer delete(long id) {
         Customer customer=find(id);
         customerRepository.delete(customer);
         return customer;

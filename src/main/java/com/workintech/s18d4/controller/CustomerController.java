@@ -28,7 +28,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public  Customer get(@PathVariable Long id){
+    public  Customer get(@PathVariable long id){
         return customerService.find(id);
     }
      // eleman kaydediypruz ve bu bilgileri record sınıfından alarak kayıt ederiz
