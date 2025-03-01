@@ -29,6 +29,11 @@ public class AccountController {
         return  accountService.findAll();
     }
 
+    @GetMapping("/{id}")
+    public  Account get(@PathVariable long id){
+        return accountService.find(id);
+    }
+
     @PostMapping("/{customerId}")//Acount bir costemıra bağlı bunu belirtmek lazım
     public AccountResponse save(@RequestBody Account account, @PathVariable long customerId){
         Customer customer=customerService.find(customerId);
@@ -40,33 +45,38 @@ public class AccountController {
         else{
             throw new RuntimeException("no customer found");
         }
-        return  new AccountResponse(account.getId(),account.getMoneyAmount(),new CustomerResponse(customer.getId(),customer.getEmail(), customer.getSalary()));
+        return  new AccountResponse(account.getId(), account.getAccountName(),account.getMoneyAmount(),new CustomerResponse(customer.getId(),customer.getEmail(), customer.getSalary()));
     }
 
     @PutMapping("/{customerId}")
-    public AccountResponse update(@PathVariable long customerId,@RequestBody Account account){
-        Customer customer=customerService.find(customerId);
-        Account updatedAccount=null;
-        for(Account account1 : customer.getAccounts()){
-            if(account.getId()== account1.getId()){
-                updatedAccount=account;
+    public AccountResponse update(@PathVariable long customerId, @RequestBody Account account) {
+        Customer customer = customerService.find(customerId);
+        Account updatedAccount = null;
+
+        for (Account account1 : customer.getAccounts()) {
+            if (account.getId() == account1.getId()) {
+                updatedAccount = account1;
+                break;
             }
         }
 
-        if(updatedAccount == null){
+        if (updatedAccount == null) {
             throw new RuntimeException("Böyle bir account yok");
         }
 
-        int indexOfUpdatedAccount=customer.getAccounts().indexOf(updatedAccount);
-        customer.getAccounts().set(indexOfUpdatedAccount,account); // hem customera
-        account.setCustomer(customer); // hemde accounta setledik gelen özelliği
+        int indexOfUpdatedAccount = customer.getAccounts().indexOf(updatedAccount);
+        if (indexOfUpdatedAccount == -1) {
+            throw new RuntimeException("Account not found in customer's account list");
+        }
+
+        customer.getAccounts().set(indexOfUpdatedAccount, account);
+        account.setCustomer(customer);
 
         accountService.save(account);
 
-        return new AccountResponse(account.getId(), account.getMoneyAmount(),
-                new CustomerResponse(customer.getId(),customer.getEmail(),customer.getSalary()));
+        return new AccountResponse(account.getId(), account.getAccountName(), account.getMoneyAmount(),
+                new CustomerResponse(customer.getId(), customer.getEmail(), customer.getSalary()));
     }
-
     @DeleteMapping("{id}")
     public AccountResponse remove(@PathVariable long id){
         Account account=accountService.find(id);
@@ -75,7 +85,7 @@ public class AccountController {
         }
         accountService.delete(id);
 
-        return new AccountResponse(account.getId(),account.getMoneyAmount(),
+        return new AccountResponse(account.getId(), account.getAccountName(),account.getMoneyAmount(),
                 new CustomerResponse(account.getCustomer().getId(),account.getCustomer().getEmail(),account.getCustomer().getSalary()));
 
         //Customera account üzerinden ulaştık

@@ -1,6 +1,7 @@
 package com.workintech.s18d4.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Account {
     @Column(name ="money_amount")
     private Double moneyAmount;
 
+    @JsonBackReference // sürekli döngü olmaması için
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     //account silinse bile customer silinmeyecek
     @JoinColumn(name = "customer_id", referencedColumnName = "id") //many kısımda join yapıldı

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -30,7 +31,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account find(long id) {
-        return accountRepository.findById(id).orElseThrow(null);
+        return accountRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Account not found with id: " + id));
     }
 
     @Override
@@ -41,8 +43,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account delete(long id) {
-       Account account=find(id);
-       accountRepository.delete(account);
-       return account;
+        Optional<Account> account = accountRepository.findById(id);
+        if (account.isEmpty()) {
+            return null; // Hesap bulunamazsa null döndür
+        }
+        accountRepository.delete(account.get());
+        return account.get();
     }
 }

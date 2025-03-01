@@ -1,4 +1,5 @@
 package com.workintech.s18d4.entity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class Customer {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
+    @JsonManagedReference // döngü olmaması için
     //Bir customerın birden fazla accountı olabilir.Many olan tarafa Join kolumn yapılır
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL) // ilişkili olanda silinecek
     //customerdan bir şey silinince accounttan da silinmeli
